@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Friendship Day ❤️ (Girlfriend’s day🤧 )</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(-45deg,#ff9ec4,#ffd6e8,#b5e8ff,#cdb4ff);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+}
+
+.container{
+position:relative;
+z-index:5;
+text-align:center;
+padding:20px;
+}
+
+h1{
+color:white;
+font-size:3rem;
+text-shadow:0 0 15px #fff;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px white;}
+to{text-shadow:0 0 30px gold;}
+}
+
+button{
+padding:14px 28px;
+margin:8px;
+font-size:18px;
+border:none;
+border-radius:40px;
+cursor:pointer;
+transition:.4s;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+button:hover{
+transform:scale(1.08);
+}
+
+#start{
+background:#ff4081;
+}
+
+.msg{
+display:none;
+}
+
+.b1{background:#ff9800;}
+.b2{background:#03a9f4;}
+.b3{background:#4caf50;}
+.b4{background:#9c27b0;}
+.b5{background:#f44336;}
+.b6{background:#00bfa5;}
+
+#card{
+display:none;
+animation:pop .8s;
+}
+
+@keyframes pop{
+from{
+transform:scale(.5);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+#text{
+margin-top:20px;
+font-size:24px;
+color:white;
+font-weight:bold;
+text-shadow:0 0 10px black;
+min-height:70px;
+}
+
+.envelope{
+font-size:80px;
+animation:shake 2s infinite;
+}
+
+@keyframes shake{
+0%,100%{transform:rotate(0);}
+25%{transform:rotate(-5deg);}
+75%{transform:rotate(5deg);}
+}
+
+.petals{
+position:absolute;
+font-size:25px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-100px) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(120vh) rotate(360deg);
+opacity:0;
+}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+
+<div class="envelope">💌</div>
+
+<h1>Happy Friendship Day</h1>
+
+<div id="card">
+
+<!-- Replace these image URLs -->
+
+<br>
+
+<button class="msg b1" onclick="showMsg(0)">🌸 First Secret</button>
+<button class="msg b2" onclick="showMsg(1)">💖 Smile</button>
+<button class="msg b3" onclick="showMsg(2)">🌹 Memory</button>
+<button class="msg b4" onclick="showMsg(3)">✨ Special</button>
+<button class="msg b5" onclick="showMsg(4)">🎁 Surprise</button>
+<button class="msg b6" onclick="showMsg(5)">❤️ Final Wish</button>
+
+</div>
+
+<button id="start" onclick="openCard()">💌 Open My Friendship Gift</button>
+
+<div id="text"></div>
+
+</div>
+
+<!-- Button click sound -->
+<audio id="clickSound">
+<source src="https://www.soundjay.com/buttons/button-09.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const messages=[
+"🌸 You are not just my best friend, you are my favorite person.",
+"😊 Every smile of yours makes me smile to so please keep it constant ",
+"🌹 Thank you for every memory For me the chapters which I have written with u will always remain best for me and I am sorry for everything (and u should be also👉🏻👈🏻) ❤️.",
+"✨ I know u have a priority list but I don’t have any priority list lekin agar kabhi hui bhe so u will always rule it 🫣.",
+"🎁 I had seen a little girl in u so hamesha apna khyal rakhna aur kesi k influence me aake koi decision mt lena ",
+"❤️ Happy Friendship Day! Kucchu pucchu "
+];
+
+function playSound(){
+document.getElementById("clickSound").play();
+}
+
+function typeWriter(text){
+
+let i=0;
+document.getElementById("text").innerHTML="";
+
+let speed=setInterval(()=>{
+
+document.getElementById("text").innerHTML+=text.charAt(i);
+
+i++;
+
+if(i>=text.length)
+clearInterval(speed);
+
+},40);
+
+}
+
+function openCard(){
+
+playSound();
+
+document.getElementById("start").style.display="none";
+
+document.getElementById("card").style.display="block";
+
+let buttons=document.querySelectorAll(".msg");
+
+buttons.forEach(b=>b.style.display="inline-block");
+
+typeWriter("🎉 Welcome! Open every surprise button.");
+
+}
+
+function showMsg(i){
+
+playSound();
+
+typeWriter(messages[i]);
+
+}
+
+//// Flower Petals
+setInterval(()=>{
+
+let p=document.createElement("div");
+
+p.className="petals";
+
+p.innerHTML=Math.random()>0.5?"🌹":"🌸";
+
+p.style.left=Math.random()*100+"vw";
+
+p.style.animationDuration=4+Math.random()*4+"s";
+
+document.body.appendChild(p);
+
+setTimeout(()=>p.remove(),8000);
+
+},250);
+
+//// Fireworks
+const canvas=document.getElementById("fireworks");
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=innerWidth;
+
+canvas.height=innerHeight;
+
+let particles=[];
+
+function explode(){
+
+let x=Math.random()*canvas.width;
+
+let y=Math.random()*canvas.height/2;
+
+for(let i=0;i<80;i++){
+
+particles.push({
+
+x,y,
+
+dx:(Math.random()-0.5)*7,
+
+dy:(Math.random()-0.5)*7,
+
+life:100,
+
+color:`hsl(${Math.random()*360},100%,60%)`
+
+});
+
+}
+
+}
+
+setInterval(explode,900);
+
+function animate(){
+
+ctx.fillStyle="rgba(0,0,0,.15)";
+
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,index)=>{
+
+ctx.beginPath();
+
+ctx.arc(p.x,p.y,3,0,Math.PI*2);
+
+ctx.fillStyle=p.color;
+
+ctx.fill();
+
+p.x+=p.dx;
+
+p.y+=p.dy;
+
+p.life--;
+
+if(p.life<=0)
+
+particles.splice(index,1);
+
+});
+
+requestAnimationFrame(animate);
+
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
